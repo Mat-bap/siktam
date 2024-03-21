@@ -3,6 +3,7 @@ import { FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensi
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
+
 const DATA = [
   {
     title: '음식이름1',
@@ -66,14 +67,14 @@ const Item = ({title, like}) => (
   <View style={styles.food}>
     <View style={styles.foodName}>
       
-      <Text style={{fontWeight:'bold',fontSize:16, color:'white'}}>{title}</Text>
+      <Text style={{fontFamily: 'Diphylleia-Regular',fontSize:16, color:'white'}}>{title}</Text>
       
       <View style={{flexDirection:'row'}}>
         <TouchableOpacity>
           <Entypo name="minus" size={15} color="white"/>
         </TouchableOpacity>
 
-        <Text style={{fontWeight:'bold',fontSize:14, color:'white'}}>{like}</Text>
+        <Text style={{fontFamily: 'Diphylleia-Regular',fontSize:14, color:'white'}}>{like}</Text>
         
         <TouchableOpacity>
         <Entypo name="plus" size={15} color="white"/>
@@ -88,15 +89,14 @@ const Item = ({title, like}) => (
 
 const UserRecord = ({navigation}) => {
   return (
-    <View>
+    <View style={styles.container}>
       
       <View style={styles.Header}>
         <Text style={styles.titleText}>나의 기록</Text>
       </View>
       
     <SafeAreaView>
-
-      <View style={styles.container}>
+      <View >
       <FlatList
         data={DATA}
         renderItem={({item}) => <Item title={item.title} like={item.like} />}
@@ -104,7 +104,6 @@ const UserRecord = ({navigation}) => {
         numColumns={3}
       />
       </View>
-
     </SafeAreaView>
     
     </View>
@@ -130,8 +129,7 @@ const styles = StyleSheet.create({
   titleText:{
     fontSize:20,
     color:'black',
-    fontWeight:'bold',
-    //fontFamily: 'Diphylleia-Regular',
+    fontFamily: 'Diphylleia-Regular',
   },
   food:{
     width:Dimensions.get('window').width/3,
