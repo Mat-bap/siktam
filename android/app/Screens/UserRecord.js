@@ -1,29 +1,32 @@
-import React from "react";
-import { FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView } from "react-native";
+import React, { useState } from "react";
+import { TouchableWithoutFeedback,FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView } from "react-native";
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-
-const DATA = [
-  {
-    title: '음식이름1',
-    like:1,
-  },
-  {
-    title: '음식이름 2',
-    like:2,
-  },
+const initialData = [
   {
     title: '스테이크',
-    like:10,
+    heart: 0,
   },
   {
     title: '파스타',
-    like:20,
+    heart: 2,
   },
   {
-    title: '스시',
-    like:30,
+    title: '연어덮밥',
+    heart: 10,
+  },
+  {
+    title: '토마호크',
+    heart: 0,
+  },
+  {
+    title: '떡볶이',
+    heart: 2,
+  },
+  {
+    title: '장어 덮밥',
+    heart: 10,
   },
   {
     title: 6,
@@ -63,68 +66,92 @@ const DATA = [
   },
 ];
 
-const Item = ({title, like}) => (
+const UserRecord = ({ navigation }) => {
+  const [data, setData] = useState(initialData);
+
+  const handlePlus = (index) => {
+    const newData = [...data];
+    newData[index].heart += 1;
+    setData(newData);
+  };
+
+  const handleMinus = (index) => {
+    const newData = [...data];
+    newData[index].heart = Math.max(newData[index].heart - 1, 0);
+    if (newData[index].heart === 0) {
+      console.log('remove the food record');
+    }
+    setData(newData);
+  };
+
+  const renderItem = ({ item, index }) => (
+    <TouchableWithoutFeedback style={{flex:1}}>
+    <Item
+      title={item.title}
+      heart={item.heart}
+      handlePlus={() => handlePlus(index)}
+      handleMinus={() => handleMinus(index)}
+    />
+    </TouchableWithoutFeedback>
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.Header}>
+        <Text style={styles.titleText}>나의 기록</Text>
+      </View>
+
+      <SafeAreaView>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={3}
+          />
+      </SafeAreaView>
+    </View>
+  );
+}
+
+const Item = ({ title, heart, handlePlus, handleMinus }) => (
   <View style={styles.food}>
     <View style={styles.foodName}>
-      
-      <Text style={{fontFamily: 'Diphylleia-Regular',fontSize:16, color:'white'}}>{title}</Text>
-      
-      <View style={{flexDirection:'row'}}>
-        <TouchableOpacity>
-          <Entypo name="minus" size={15} color="white"/>
-        </TouchableOpacity>
 
-        <Text style={{fontFamily: 'Diphylleia-Regular',fontSize:14, color:'white'}}>{like}</Text>
-        
-        <TouchableOpacity>
-        <Entypo name="plus" size={15} color="white"/>
+      <Text style={styles.foodinfoText}>{title}</Text>
+      
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:5 }}>
+        <TouchableOpacity onPress={handleMinus}>
+          <Entypo name="minus" size={15} color="white" />
         </TouchableOpacity>
-        <Fontisto name="heart-alt" size={20} color="white"/>
+        
+        <View style={{justifyContent:'center', alignItems:'center'}}>
+          <Fontisto name="heart-alt" size={23} color="white" />
+          <Text style={[{ fontSize: 10, position: 'absolute'}, styles.foodinfoText]}>{heart}</Text>
+        </View>
+        <TouchableOpacity onPress={handlePlus}>
+          <Entypo name="plus" size={15} color="white" />
+        </TouchableOpacity>
+        
       </View>
 
     </View>
   </View>
 );
 
-
-const UserRecord = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      
-      <View style={styles.Header}>
-        <Text style={styles.titleText}>나의 기록</Text>
-      </View>
-      
-    <SafeAreaView>
-      <View >
-      <FlatList
-        data={DATA}
-        renderItem={({item}) => <Item title={item.title} like={item.like} />}
-        keyExtractor={(item, index) => index}
-        numColumns={3}
-      />
-      </View>
-    </SafeAreaView>
-    
-    </View>
-  );
-}
-
-
 const styles = StyleSheet.create({
   container: {
     width: Dimensions.get('window').width,
     backgroundColor: 'white',
-    height:Dimensions.get('window').height*2
   },
   Header:{
     width: Dimensions.get('window').width,
     backgroundColor:'white',
     height:Dimensions.get('window').height*0.08,
+    position: 'relative',
     alignItems:'center',
     justifyContent:'center',
     borderBottomColor:'black',
-    borderBottomWidth:0.8
+    borderBottomWidth:0.8,
   },
   titleText:{
     fontSize:20,
@@ -134,13 +161,19 @@ const styles = StyleSheet.create({
   food:{
     width:Dimensions.get('window').width/3,
     height:Dimensions.get('window').width/3,
-    backgroundColor:'lightgrey',
+    backgroundColor:'grey',
     borderColor:'white',
     borderWidth:1,
   },
   foodName:{
     marginLeft:Dimensions.get('window').width/3-120,
-    marginTop:Dimensions.get('window').width/3-50
-  }
-})
+    marginTop:Dimensions.get('window').width/3-60
+  },
+  foodinfoText:{
+    fontFamily: 'Diphylleia-Regular',
+    fontSize:17,
+    color:'white'
+  }  
+});
+
 export default UserRecord;
