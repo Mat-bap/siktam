@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { TouchableWithoutFeedback,FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView } from "react-native";
+import { Image,TouchableWithoutFeedback,FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView } from "react-native";
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const initialData = [
   {
     title: '스테이크',
-    heart: 0,
+    heart: 100,
+    image: require("../assets/images/BeanCurdSteak.jpg")
   },
   {
     title: '파스타',
     heart: 2,
+    image: require("../assets/images/HamEggToast.jpg")
   },
   {
     title: '연어덮밥',
@@ -64,17 +66,30 @@ const initialData = [
   {
     title: 16,
   },
+  {
+    title: 17,
+  },
+  {
+    title: 18,
+  },
+  {
+    title: 19,
+  },
+  {
+    title: 20,
+  },
 ];
 
 const UserRecord = ({ navigation }) => {
   const [data, setData] = useState(initialData);
 
+  //--user like puls btn--\\
   const handlePlus = (index) => {
     const newData = [...data];
     newData[index].heart += 1;
     setData(newData);
   };
-
+  //--user like minus btn--\\
   const handleMinus = (index) => {
     const newData = [...data];
     newData[index].heart = Math.max(newData[index].heart - 1, 0);
@@ -83,7 +98,7 @@ const UserRecord = ({ navigation }) => {
     }
     setData(newData);
   };
-
+ //--flatlist rendering the items--\\
   const renderItem = ({ item, index }) => (
     <TouchableWithoutFeedback style={{flex:1}}>
     <Item
@@ -91,6 +106,7 @@ const UserRecord = ({ navigation }) => {
       heart={item.heart}
       handlePlus={() => handlePlus(index)}
       handleMinus={() => handleMinus(index)}
+      image={item.image}
     />
     </TouchableWithoutFeedback>
   );
@@ -98,50 +114,57 @@ const UserRecord = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.Header}>
-        <Text style={styles.titleText}>나의 기록</Text>
+        <Text style={styles.titleText}>나의 취향</Text>
       </View>
 
-      <SafeAreaView>
+      <SafeAreaView style={{flex:1}}>
           <FlatList
             data={data}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
-            numColumns={3}
+            numColumns={2}
           />
       </SafeAreaView>
     </View>
   );
 }
 
-const Item = ({ title, heart, handlePlus, handleMinus }) => (
+const Item = ({ title, heart, handlePlus, handleMinus, image }) => (
   <View style={styles.food}>
+    {/* food image */}
+    <View style={{backgroundColor:'pink', width:"100%",height:"70%"}}>
+      <Image source={image} style={styles.image} resizeMode={'cover'}/>
+    </View>
+    <View sytle={{backgroundColor:'blue', position:"absolute", zIndex:-10}}>
+      {/*margin top-text and vector icon*/}
     <View style={styles.foodName}>
-
       <Text style={styles.foodinfoText}>{title}</Text>
       
+      {/*plus minus icon view*/}
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:5 }}>
         <TouchableOpacity onPress={handleMinus}>
-          <Entypo name="minus" size={15} color="white" />
+          <Entypo name="minus" size={15} color="black" />
         </TouchableOpacity>
-        
+        {/*num of hearts and heart icon view*/}
         <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Fontisto name="heart-alt" size={23} color="white" />
-          <Text style={[{ fontSize: 10, position: 'absolute'}, styles.foodinfoText]}>{heart}</Text>
+          <Fontisto name="heart-alt" size={23} color="black" />
+          <Text style={styles.heartNumText}>{heart}</Text>
         </View>
         <TouchableOpacity onPress={handlePlus}>
-          <Entypo name="plus" size={15} color="white" />
+          <Entypo name="plus" size={15} color="black" />
         </TouchableOpacity>
-        
       </View>
-
+    </View>
     </View>
   </View>
+  
 );
 
 const styles = StyleSheet.create({
   container: {
     width: Dimensions.get('window').width,
     backgroundColor: 'white',
+    flex:1
   },
   Header:{
     width: Dimensions.get('window').width,
@@ -159,21 +182,31 @@ const styles = StyleSheet.create({
     fontFamily: 'Diphylleia-Regular',
   },
   food:{
-    width:Dimensions.get('window').width/3,
-    height:Dimensions.get('window').width/3,
+    width:Dimensions.get('window').width/2,
+    height:Dimensions.get('window').width/2,
     backgroundColor:'grey',
     borderColor:'white',
     borderWidth:1,
   },
   foodName:{
-    marginLeft:Dimensions.get('window').width/3-120,
-    marginTop:Dimensions.get('window').width/3-60
+    marginLeft:Dimensions.get('window').width/2-180,
+    marginTop:Dimensions.get('window').width/2-70
   },
   foodinfoText:{
     fontFamily: 'Diphylleia-Regular',
-    fontSize:17,
+    fontSize:20,
     color:'white'
-  }  
+  },
+  heartNumText:{
+    fontFamily: 'Diphylleia-Regular',
+    fontSize:12,
+    color:'black',
+    position: 'absolute'
+  },
+  image: {
+    width:"100%",
+    height:"100%",
+  },
 });
 
 export default UserRecord;
