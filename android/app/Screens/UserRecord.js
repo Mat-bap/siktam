@@ -17,6 +17,7 @@ const initialData = [
   {
     title: '연어덮밥',
     heart: 10,
+    image: require("../assets/images/HamEggToast.jpg")
   },
   {
     title: '토마호크',
@@ -130,13 +131,12 @@ const UserRecord = ({ navigation }) => {
 }
 
 const Item = ({ title, heart, handlePlus, handleMinus, image }) => (
-  <View style={styles.food}>
+    <View style={styles.food}>
     {/* food image */}
-    <View style={{backgroundColor:'pink', width:"100%",height:"70%"}}>
+    <View style={{width:"100%",height:"70%", position:"absolute", }}>
       <Image source={image} style={styles.image} resizeMode={'cover'}/>
     </View>
-    <View sytle={{backgroundColor:'blue', position:"absolute", zIndex:-10}}>
-      {/*margin top-text and vector icon*/}
+
     <View style={styles.foodName}>
       <Text style={styles.foodinfoText}>{title}</Text>
       
@@ -156,7 +156,6 @@ const Item = ({ title, heart, handlePlus, handleMinus, image }) => (
       </View>
     </View>
     </View>
-  </View>
   
 );
 
@@ -184,18 +183,19 @@ const styles = StyleSheet.create({
   food:{
     width:Dimensions.get('window').width/2,
     height:Dimensions.get('window').width/2,
-    backgroundColor:'grey',
     borderColor:'white',
     borderWidth:1,
+    backgroundColor:'#EAEAEA'
   },
   foodName:{
-    marginLeft:Dimensions.get('window').width/2-180,
-    marginTop:Dimensions.get('window').width/2-70
+    marginLeft:Dimensions.get('window').width/2-190,
+    marginTop:Dimensions.get('window').width/2-60
+
   },
   foodinfoText:{
     fontFamily: 'Diphylleia-Regular',
     fontSize:20,
-    color:'white'
+    color:'black'
   },
   heartNumText:{
     fontFamily: 'Diphylleia-Regular',

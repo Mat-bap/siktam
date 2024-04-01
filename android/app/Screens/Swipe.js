@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView } from "react-native";
+import LinearGradient from 'react-native-linear-gradient';
 
 const Swipe = ({navigation}) => {
   return (
@@ -11,7 +12,9 @@ const Swipe = ({navigation}) => {
         <TouchableOpacity onPress={()=> navigation.navigate('UserRecord')}>
           <Text>go to user record</Text>
         </TouchableOpacity>
+        
       </View>
+      
 
       </ScrollView>
     </SafeAreaView>
