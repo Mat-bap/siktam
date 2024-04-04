@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Image,TouchableWithoutFeedback,FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView } from "react-native";
+import { Image,TouchableWithoutFeedback,FlatList, View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView, Modal } from "react-native";
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const initialData = [
   {
@@ -113,11 +114,42 @@ const UserRecord = ({ navigation, route }) => {
     </TouchableWithoutFeedback>
   );
 
+  //--modal setting--\\
+  const [modalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.Header}>
         <Text style={styles.titleText}>나의 취향</Text>
+        <TouchableOpacity onPress={toggleModal}>
+          <AntDesign name="questioncircleo" size={18} color="gray" />
+        </TouchableOpacity>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={toggleModal}
+      >
+        <View style={{flex:1, justifyContent:'center', alignItems:'center',}}>
+          <View style={styles.modalview}>
+            <Text style={[styles.titleText, {fontSize:30, marginTop:-200}]}>도움말</Text>
+            <Text style={[styles.titleText, {fontSize:20, marginTop:10}]}>나의 취향 목록에 있는</Text>
+            <Text style={[styles.titleText, {fontSize:20, marginTop:10}]}>하트 아이콘은</Text>
+            <Fontisto name="heart-alt" size={23} color="black" />
+            <Text style={[styles.titleText, {fontSize:20, marginTop:10}]}>내가 먹은 음식 횟수를 뜻해요</Text>
+            <TouchableOpacity onPress={toggleModal}>
+              <View style={styles.modalBTN}>
+                <Text style={[styles.titleText, {fontSize:20}]}>  뒤로 가기</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       <SafeAreaView style={{flex:1}}>
           <FlatList
@@ -175,11 +207,13 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderBottomColor:'black',
     borderBottomWidth:0.8,
+    flexDirection:'row',
   },
   titleText:{
     fontSize:20,
     color:'black',
     fontFamily: 'Diphylleia-Regular',
+    marginRight:20
   },
   food:{
     width:Dimensions.get('window').width/2,
@@ -208,6 +242,24 @@ const styles = StyleSheet.create({
     width:"100%",
     height:"100%",
   },
+  modalview:{
+    width:Dimensions.get('window').width-50,
+    height:Dimensions.get('window').height-100,
+    backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:20
+  },
+  modalBTN :{
+    width:150,
+    height:50,
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:80,
+    borderColor:'gray',
+    borderWidth:1.5,
+    borderRadius: 50,
+  }
 });
 
 export default UserRecord;
