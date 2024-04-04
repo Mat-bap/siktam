@@ -81,9 +81,10 @@ const initialData = [
   },
 ];
 
-const UserRecord = ({ navigation }) => {
+const UserRecord = ({ navigation, route }) => {
   const [data, setData] = useState(initialData);
-
+  const { text } = route.params;
+  console.log(route.params.text);
   //--user like puls btn--\\
   const handlePlus = (index) => {
     const newData = [...data];
