@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "43747563726",
+    "project_id": "matbap-bf7bf",
+    "storage_bucket": "matbap-bf7bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43747563726:android:2234c3e74b4478b6aa989f",
+        "android_client_info": {
+          "package_name": "com.matjib"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43747563726-s9up2rhj9t1crf5g5b7ihfvunhf40ami.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMwzG2Hsd3Wdg5vF-torvSoyUgdlJbx5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43747563726-s9up2rhj9t1crf5g5b7ihfvunhf40ami.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
